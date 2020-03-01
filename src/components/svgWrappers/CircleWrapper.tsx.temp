@@ -1,0 +1,6 @@
+// import { CircleOptions } from "./models/CircleOptions";
+
+// export const CircleWrapper = (props: CircleOptions) => {
+//   const { x, y, radius } = props;
+//   return <circle cx={`${x}%`} cy={`${y}%`} r={`${radius}`} fill="white" />;
+// };
