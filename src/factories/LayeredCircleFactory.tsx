@@ -12,17 +12,15 @@ interface CircleFactoryOptions {
   radiusStart: number;
   radiusInterval: number;
 }
-const NUMBER_OF_CIRCLES = 20;
-const LARGEST_RADIUS = 100;
-const SMALLEST_RADIUS = 10;
+const NUMBER_OF_CIRCLES = 60;
+const LARGEST_RADIUS = 50;
+const SMALLEST_RADIUS = 1;
 const circleFactoryOptions: CircleFactoryOptions = {
   numberOfCircles: NUMBER_OF_CIRCLES,
   xOffset: 1,
   yOffset: 1,
   radiusStart: LARGEST_RADIUS,
-  radiusInterval: Math.floor(
-    ((LARGEST_RADIUS) / NUMBER_OF_CIRCLES
-   * 10) / 10)
+  radiusInterval: 1.1//Math.floor(((LARGEST_RADIUS / NUMBER_OF_CIRCLES) * 10) / 10)
 };
 
 const optionsForCircleArray: CircleOptions[] = new Array(
@@ -36,12 +34,13 @@ const optionsForCircleArray: CircleOptions[] = new Array(
       radiusInterval,
       radiusStart
     } = circleFactoryOptions;
+    const radiusToApply = (Math.floor(radiusStart - (index + 1) * radiusInterval) * 10) /  10
     const newCircleToCreate: CircleOptions = {
-      x: 50,
-      y: 50,
-      // x: (index + 1) * xOffset,
-      // y: (index + 1) * yOffset,
-      radius: radiusStart - (index + 1) * radiusInterval,
+      // x: 50,
+      // y: 25,
+      x: (index + 1) * Math.floor((xOffset * .95) * 10) / 10,
+      y: (index + 1) * yOffset,
+      radius: radiusToApply > 100 ? 100 : radiusToApply,
       color: getRandomColor()
     };
     return newCircleToCreate;
@@ -53,13 +52,20 @@ const r = "FF",
 //   return Math.floor((circleFactoryOptions.radiusStart / radius) * 10) / 10;
 // };
 function LayeredCircleFactory() {
-  const handleContainerClick = (click: any) => {
-    const x = click.screenX;
-    const y = click.screenY;
-    const newCoorObj: CursorPoint = { x, y };
-    setClickXy(newCoorObj);
-  };
+  let currentEvent: CursorPoint;
   let [clickXy, setClickXy] = useState({ x: 150, y: 150 });
+  const intervalHandler = () => {
+    setClickXy(currentEvent);
+  };
+  let pointerMoveEventIntervalHandler: NodeJS.Timeout;
+  const handleContainerClick = (event: any) => {
+    currentEvent = { x: event.screenX, y: event.screenY };
+    clearTimeout(pointerMoveEventIntervalHandler);
+    pointerMoveEventIntervalHandler = setTimeout(
+      () => intervalHandler(),
+      4
+    );
+  };
   return (
     <div onPointerMove={handleContainerClick} className="App">
       <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">

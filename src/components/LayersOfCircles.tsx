@@ -13,7 +13,7 @@ const layersOfCircles = (
   return circleOptions.map((circleProps: CircleOptions, index) => {
       const { x, y, radius, color } = circleProps;
       let radiusToApply = radius * ratioOfDistanceFromOrigin
-    console.log(circleProps);
+    // console.log(circleProps);
     return (
       <circle
         key={`circle${index}`}

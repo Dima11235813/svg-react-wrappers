@@ -6,7 +6,7 @@ function CircleGrowShrink() {
     const x = click.screenX;
     const y = click.screenY;
     const newCoorObj = { x, y };
-    console.log(newCoorObj);
+    // console.log(newCoorObj);
     setClickXy(newCoorObj);
   };
   const { x, y } = clickXy;
